@@ -1,0 +1,133 @@
+# BlastMan
+
+专门针对POST和GET请求所开发的一款爆破程序。brupsuite的intruder方法虽然好用，但是在读取大型字典时总是出现卡顿，medus与hydra的http请求始终用的不太顺手，所以决定自己写一个关于http的爆破程序。
+
+运行环境: 
+  python3
+
+安装:
+  pip install requests
+  
+说明:
+  BlastMan专门用于POST和GET请求,当抓取请求头后，可通过修改GET变量、POST变量、请求头内容对程序进行爆破。
+  
+  Options:
+  -h, --help            显示帮助信息
+  -f REQUEST_FILE, --file=REQUEST_FILE
+                        包含请求内容的文件地址
+  -S, --ssl_variable    是否使用 Https，默认 False
+  -C, --single_variable
+                        单一变量模式，当只有一个变量需要爆破时使用该模式，与 -c 共用
+  -c SINGLE_VARIABLE_FILE, --single_variable_file=SINGLE_VARIABLE_FILE
+                        变量字典,在单一变量模式中使用,与 -C 共用
+  -e ERRORS_CONTENT, --errors_content=ERRORS_CONTENT
+                        在返回的内容中标记错误符号，以确定变量是否正确。 请注意，换行符不等于空格
+  -E ERRORS_STATUS, --errors_status=ERRORS_STATUS
+                        根据状态代码标记错误，以确定变量是否正确
+  -R ERRORS_RESPONSE, --errors_response=ERRORS_RESPONSE
+                        在返回的响应标头中标记错误符号，以确定变量是否正确
+  -M MARK_SINGLE_VARIABLE, --mark_single_variable=MARK_SINGLE_VARIABLE
+                        用于标记变量需要插入的位置，与 -C 公用
+  -u MARK_USERNAME, --markusername=MARK_USERNAME
+                        标记username位置
+  -U USERNAME_FILE, --username_file=USERNAME_FILE
+                        username字典
+  -p MARK_PASSWORD, --markpassword=MARK_PASSWORD
+                        标记password位置
+  -P PASSWORD_FILE, --password_file=PASSWORD_FILE
+                        password字典
+  -t THREAD, --thread=THREAD
+                        线程数，默认为5
+  -T TIMEOUT, --timeout=TIMEOUT
+                        响应等待时间，默认为5秒                                            
+  -n NUMBER_OF_TIMES, --number_of_times=NUMBER_OF_TIMES                                                           
+                        一个请求最多尝试次数，默认为3次                                      
+  -X, --stop            发现一个成功后立即停止后续测试                                                         
+  -v, --verbose         显示详细信息
+
+
+使用方法：
+  
+    单一模式(只有一个变量需要修改，password类型)：
+	
+		#抓取一个请求内容，保存为test.txt
+		
+		POST /XXXXXX/XXXXXXX/XXXXXX HTTP/1.1
+		Host: XXX.XXX.XXX.XXX
+		User-Agent: XXXXXXXXXXX
+		Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+		Accept-Language: en-US,en;q=0.5
+		Accept-Encoding: gzip, deflate
+		Referer: http://XXX.XXX.XXX.XXX/XXXXXX/XXXXXXX/XXXXXX
+		Content-Type: application/x-www-form-urlencoded
+		Content-Length: 39
+		Connection: close
+		Upgrade-Insecure-Requests: 1
+
+		XXXXXXX=this&XXXXXXX=login
+		
+		
+		#确定要修改的变量位置为this
+		
+		python3 BlastMan.py -f /xxx/xxxx/test.txt -e failed -C -c /dict/dict_test.txt -M this -t 10 -v
+		
+		-f: 请求test.txt所在位置
+		-e：当请求变量错误时,响应内容中会包含一段通用的字符串failed，用于判断该请求是否正确
+		-C：使用单一变量模式
+		-c：变量字典位置
+		-M：需要修改内容的位置
+		-t：线程数
+		-v：显示细节
+		
+	普通模式（有两个变量需要修改，username、password类型）：
+	
+		#抓取一个请求内容，保存为test.txt
+		
+		POST /XXXXXX/XXXXXXX/XXXXXX HTTP/1.1
+		Host:XXX.XXX.XXX.XXX
+		Content-Type:application/x-www-form-urlencoded
+		Content-Length:74
+
+		username=this-username&password=this-password&Login=login
+
+		#确定要修改的变量位置为this-username、this-password
+		
+		python3 BlastMan.py -f /xxx/xxxx/test.txt -E 401 -u this-username -U /dict/usearname.txt -p this-password -P /dict/password.txt -T 10 -n 5 -v -X -S
+		
+		-f: 请求test.txt所在位置
+		-E：当请求变量错误时,响应代码通常为401，用于判断该请求是否正确
+		-u：username位置
+		-U：username字典位置
+		-p：password位置
+		-P：password字典位置
+		-T：等待响应时间为10秒
+		-n：一个求情最大尝试请求次数
+		-v：显示细节
+		-X：发现一个成功后立即停止后续测试
+		-S：使用SSL
+		
+	普通模式（有两个变量需要修改，username、password类型）：
+	
+		#抓取一个请求内容，保存为test.txt
+		
+		GET /XXX/result?s=this-username HTTP/1.1
+		Host: XXX.XXX.XXX.XXX
+		User-Agent: XXXXXXXXXXX
+		Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+		Accept-Language: en-US,en;q=0.5
+		Accept-Encoding: gzip, deflate
+		Referer: http:///XXXXXX/XXXXXXX/XXXXXX?s=this-password
+		Connection: close
+		Cookie: st=44023b9a53b0589fbd3db2e827502258; UM_distinctid=1711aeae77832b-07f5744d413164
+		Upgrade-Insecure-Requests: 1
+		
+		#确定要修改的变量位置为this-username、this-password
+		
+		python3 BlastMan.py -f /xxx/xxxx/test.txt -R login.html -u this-username -U /dict/usearname.txt -p this-password -P /dict/password.txt
+		
+		-f: 请求test.txt所在位置
+		-R：当请求变量错误时,返回的响应头中总会出现login.html字段，用于判断该请求是否正确
+		-u：username位置
+		-U：username字典位置
+		-p：password位置
+		-P：password字典位置
