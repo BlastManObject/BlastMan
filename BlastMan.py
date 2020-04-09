@@ -32,7 +32,7 @@ def main():
 
 	value_dict = ValueJudge.ValueJudge(options.request_file, options.ssl_variable, options.single_variable, options.single_variable_file, options.errors_content, options.errors_status, options.errors_response, options.mark_single_variable, options.mark_username, options.mark_password, options.thread, options.username_file, options.password_file, options.verbose, options.timeout, options.number_of_times, options.find_stop)
 
-	print("\r\nBlasting in progress.If successful, it will be recorded in the log: BlastMan/log/")
+	print("\r\nThe program is about to start.If successful, it will be recorded in the log: BlastMan/log/")
 	print("Error log: BlastMan/log/\r\n\r\n")
 	print("The program will start in 10 seconds...\r\n")
 

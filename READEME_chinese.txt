@@ -131,3 +131,11 @@
 		-U：username字典位置
 		-p：password位置
 		-P：password字典位置
+
+	其他命令:
+		python3 BlastMan.py -f /xxx/xxxx/test.txt -R login.html -E 401 -e failed -u this-username -U /dict/usearname.txt -p this-password -P /dict/password.txt
+		python3 BlastMan.py -f /xxx/xxxx/test.txt -e failed -E 401 -C -c /dict/dict_test.txt -M this -t 10 -v -X
+
+	log:
+		如果成功，它将被记录在日志中: BlastMan/log/
+		错误日志: BlastMan/log/

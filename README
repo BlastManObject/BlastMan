@@ -98,6 +98,10 @@ Instructions:
 		-p: password location
 		-P: password dictionary location
 
+	Other commands:
+		python3 BlastMan.py -f /xxx/xxxx/test.txt -R login.html -E 401 -e failed -u this-username -U /dict/usearname.txt -p this-password -P /dict/password.txt
+		python3 BlastMan.py -f /xxx/xxxx/test.txt -e failed -E 401 -C -c /dict/dict_test.txt -M this -t 10 -v -X
+
 	log:
-		Blasting in progress.If successful, it will be recorded in the log: BlastMan/log/
+		If successful, it will be recorded in the log: BlastMan/log/
 		Error log: BlastMan/log/
