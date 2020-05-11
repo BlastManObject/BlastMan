@@ -10,6 +10,7 @@ class BlastRequest(object):
 			self.verbose = verbose
 			self.timeout = timeout
 			self.number_of_times = number_of_times
+			self.logPath = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"/log/"
 			self.bo = ("out_time","success","failure")
 			
 		except:
@@ -83,7 +84,7 @@ class BlastRequest(object):
 				return self.bo[2]
 
 		except:
-				filename = "log/" + request_content_dict["error_logname"]
+				filename = self.logPath + request_content_dict["error_logname"]
 				fopen = open(filename,"a")
 				fopen.write("%s %s" % ("I did not detect it successfully:",dic))
 				fopen.write(new_request_content)
@@ -92,21 +93,21 @@ class BlastRequest(object):
 
 	def recording(self, bo, new_request_content, request_content_dict, dic, username_variable, find_stop):
 		if bo == "success":
-			filename = "log/" + request_content_dict["success_logname"]
+			filename = self.logPath + request_content_dict["success_logname"]
 			fopen = open(filename,"a")
 			fopen.write(new_request_content+"\r\n\r\n\r\n")
 			fopen.close()
 			if find_stop:
 				os._exit(1)
 		elif bo == "out_time":
-			filename = "log/" + request_content_dict["error_logname"]
+			filename = self.logPath + request_content_dict["error_logname"]
 			fopen = open(filename,"a")
 			fopen.write("out time: \r\n")
 			fopen.write(new_request_content+"\r\n\r\n\r\n")
 			fopen.close()
 			if username_variable != None:
 				dic = username_variable + "\t" + dic
-			filename = "log/" + request_content_dict["error_dict"]
+			filename = self.logPath + request_content_dict["error_dict"]
 			fopen = open(filename,"a")
 			fopen.write(dic+"\r\n")
 			fopen.close()
