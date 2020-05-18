@@ -35,7 +35,7 @@ Instructions:
 		
 		#Determine the position of the variable to be modified is this
 		
-		python3 BlastMan.py -f /xxx/xxxx/test.txt -e failed -C -c /dict/dict_test.txt -M this -t 10 -v
+		python3 BlastMan.py -f /xxx/xxxx/test.txt -e failed -C -c /dict/dict_test.txt -M this -t 10 -v -b 10
 		
 		-f: request test.txt location
 		-e: When the request variable is wrong, the response content will contain a generic string failed to determine whether the request is correct
@@ -44,7 +44,8 @@ Instructions:
 		-M: need to modify the location of the content
 		-t: number of threads
 		-v: display details
-		
+		-b: Time difference between requests,default is 0,Unit:second
+
 	Normal mode (There are two variables that need to be modified, username and password types):
 	
 		#Grab a request content and save it as test.txt
