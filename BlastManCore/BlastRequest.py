@@ -2,9 +2,10 @@
 
 import requests
 import os
+import time
 
 class BlastRequest(object):
-	def __init__(self, errors_mark_dict, verbose, timeout, number_of_times):
+	def __init__(self, errors_mark_dict, verbose, timeout, number_of_times, break_time):
 		try:
 			self.errors_mark_dict = errors_mark_dict
 			self.verbose = verbose
@@ -12,6 +13,7 @@ class BlastRequest(object):
 			self.number_of_times = number_of_times
 			self.logPath = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"/log/"
 			self.bo = ("out_time","success","failure")
+			self.break_time = break_time
 			
 		except:
 			print("Data exception")
@@ -29,14 +31,18 @@ class BlastRequest(object):
 					if method_this == "POST":
 						req = requests.post(url_this, data=data_this, headers=header_this, timeout=self.timeout, allow_redirects=False)
 					if method_this == "GET":
-						req = requests.get(url_this, headers=header_this, timeout=self.timeout , allow_redirects=False)					
+						req = requests.get(url_this, headers=header_this, timeout=self.timeout , allow_redirects=False)
+					if self.verbose:
+						print("%s %s%s" % (dic,"--Response status code:",req.status_code))
 					break
 				except requests.exceptions.RequestException as e:
 					i += 1
+					if self.verbose:
+						print("%s %s %s %s%s" % (dic,"--The",i,"attempt failed,Response status code:",req.status_code))
 					if i == self.number_of_times:
 						return self.bo[0]
-			if self.verbose:
-				print("%s %s%s" % (dic,"--Response status code:",req.status_code))
+					time.sleep(self.break_time)
+
 
 			if self.errors_mark_dict["type_status"] == None and self.errors_mark_dict["type_response"] == None and self.errors_mark_dict["type_content"] != None:
 				if req.text.find(self.errors_mark_dict["value_content"]) == -1:

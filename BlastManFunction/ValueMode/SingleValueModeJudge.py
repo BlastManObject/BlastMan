@@ -2,12 +2,12 @@
 
 from BlastManFunction.ValueMode import DeduplicationValueModeJudge
 
-def SingleValueModeJudge(request_file, mark_single_variable, single_variable_file, value_dict):
-	mark_dic = DeduplicationValueModeJudge.SingleDeduplication(request_file,mark_single_variable)
+def SingleValueModeJudge(value_dict):
+	mark_dic = DeduplicationValueModeJudge.SingleDeduplication(value_dict["request_file"],value_dict["mark_single_variable"])
 
-	if single_variable_file is not None:
+	if value_dict["single_variable_file"] is not None:
 		try:
-			fopen = open(single_variable_file, "r")
+			fopen = open(value_dict["single_variable_file"], "r")
 			content = fopen.read(100)
 			fopen.close()
 			if len(content) == 0:
@@ -20,8 +20,6 @@ def SingleValueModeJudge(request_file, mark_single_variable, single_variable_fil
 		print("Variable list error,-c option")
 		sys.exit()
 
-	value_dict["mark_single_variable"] = mark_single_variable
-	value_dict["single_variable_file"] = single_variable_file
 	value_dict["mark_single_Greater_than_0"] = mark_dic["Greater_than_0"]
 	value_dict["mark_single_variable_Greater_than_0"] = mark_dic["variable_Greater_than_0"]
 

@@ -17,7 +17,8 @@ class SingleBlast(object):
 		self.mark_single_variable_Greater_than_0 = value_dict["mark_single_variable_Greater_than_0"]
 		self.single_variable = value_dict["single_variable"]
 		self.find_stop = value_dict["find_stop"]
-		
+		self.break_time = value_dict["break_time"]
+
 		self.blast_list = []
 		self.thread_list = []
 		self.thread_count = 0
@@ -55,11 +56,11 @@ class SingleBlast(object):
 			line.join()
 
 	def blastthread_creat(self, thread_id):
-		self.thread_list.append(Single_ThreadBlast.Single_ThreadBlast(self.request_content, self.errors_mark_dict, self.verbose, self.blast_list, thread_id, self.timeout, self.number_of_times, self.mark_single_variable, self.mark_single_Greater_than_0, self.mark_single_variable_Greater_than_0, self.ssl_variable, self.username_variable, self.find_stop))
+		self.thread_list.append(Single_ThreadBlast.Single_ThreadBlast(self.request_content, self.errors_mark_dict, self.verbose, self.blast_list, thread_id, self.timeout, self.number_of_times, self.mark_single_variable, self.mark_single_Greater_than_0, self.mark_single_variable_Greater_than_0, self.ssl_variable, self.username_variable, self.find_stop, self.break_time))
 		self.blast_list.clear()
 		self.thread_list[thread_id].start()
 
 	def blastthread_update(self, thread_id):
-		self.thread_list[thread_id] = Single_ThreadBlast.Single_ThreadBlast(self.request_content, self.errors_mark_dict, self.verbose, self.blast_list, thread_id, self.timeout, self.number_of_times, self.mark_single_variable, self.mark_single_Greater_than_0, self.mark_single_variable_Greater_than_0, self.ssl_variable, self.username_variable, self.find_stop)
+		self.thread_list[thread_id] = Single_ThreadBlast.Single_ThreadBlast(self.request_content, self.errors_mark_dict, self.verbose, self.blast_list, thread_id, self.timeout, self.number_of_times, self.mark_single_variable, self.mark_single_Greater_than_0, self.mark_single_variable_Greater_than_0, self.ssl_variable, self.username_variable, self.find_stop, self.break_time)
 		self.blast_list.clear()
 		self.thread_list[thread_id].start()

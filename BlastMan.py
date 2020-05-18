@@ -10,6 +10,7 @@ from BlastManCore import DoubleBlast
 
 def main():
 	
+	value_dict = {}
 	apiparser = optparse.OptionParser()
 	group_Single = optparse.OptionGroup(apiparser, "Single variable mode","Use this mode when only one parameter needs to be tested")
 	group_Double = optparse.OptionGroup(apiparser, "Double variable mode","Account password mode")
@@ -17,6 +18,7 @@ def main():
 	apiparser.add_option("-f","--file",type="string",action="store",dest="request_file",help="File containing request header content")
 	apiparser.add_option("-t","--thread",type="int",action="store",dest="thread",default="5",help="Number of concurrent threads,5 threads by default")
 	apiparser.add_option("-n","--number_of_times",type="int",action="store",dest="number_of_times",default="3",help="Maximum number of requests,3 times by default")
+	apiparser.add_option("-b","--break_time",type="int",action="store",dest="break_time",default="0",help="Time difference between requests,default is 0,Unit:second")
 	apiparser.add_option("-e","--errors_content",type="string",action="store",dest="errors_content",help="Mark the error symbol in the returned content to determine if the content is correct. Note that newlines are not equal to spaces")
 	apiparser.add_option("-E","--errors_status",type="int",action="store",dest="errors_status",help="Mark errors based on status code to determine if content is correct")
 	apiparser.add_option("-R","--errors_response",type="string",action="store",dest="errors_response",help="Mark error symbols in returned response headers to determine if the content is correct")
@@ -38,7 +40,26 @@ def main():
 
 	(options, args) = apiparser.parse_args()
 
-	value_dict = ValueJudge.ValueJudge(options.request_file, options.ssl_variable, options.single_variable, options.single_variable_file, options.errors_content, options.errors_status, options.errors_response, options.mark_single_variable, options.mark_username, options.mark_password, options.thread, options.username_file, options.password_file, options.verbose, options.timeout, options.number_of_times, options.find_stop)
+	value_dict["request_file"] = options.request_file
+	value_dict["ssl_variable"] = options.ssl_variable
+	value_dict["single_variable"] = options.single_variable
+	value_dict["single_variable_file"] = options.single_variable_file
+	value_dict["errors_content"] = options.errors_content
+	value_dict["errors_status"] = options.errors_status
+	value_dict["errors_response"] = options.errors_response
+	value_dict["mark_single_variable"] = options.mark_single_variable
+	value_dict["mark_username"] = options.mark_username
+	value_dict["mark_password"] = options.mark_password
+	value_dict["thread"] = options.thread
+	value_dict["username_file"] = options.username_file
+	value_dict["password_file"] = options.password_file
+	value_dict["verbose"] = options.verbose
+	value_dict["timeout"] = options.timeout
+	value_dict["number_of_times"] = options.number_of_times
+	value_dict["find_stop"] = options.find_stop
+	value_dict["break_time"] = options.break_time
+
+	value_dict = ValueJudge.ValueJudge(value_dict)
 
 	print("\r\nThe program is about to start.If successful, it will be recorded in the log: BlastMan/log/")
 	print("Error log: BlastMan/log/\r\n\r\n")
