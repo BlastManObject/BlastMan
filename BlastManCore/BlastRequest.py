@@ -86,8 +86,8 @@ class BlastRequest(object):
 		except:
 				filename = self.logPath + request_content_dict["error_logname"]
 				fopen = open(filename,"a")
-				fopen.write("%s%s %s%s" % ("\r\n\r\n\r\n","I did not detect it successfully:",dic,"\r\n\r\n"))
-				fopen.write(new_request_content)
+				fopen.write("%s %s%s" % ("I did not detect it successfully:",dic,"\r\n\r\n"))
+				fopen.write(new_request_content+"\r\n\r\n\r\n")
 				fopen.close()
 				print("Request except,Please check your configuration. Program error location is at 'BlastRequest'")
 
