@@ -28,9 +28,9 @@ def main():
 	apiparser.add_option("-v","--verbose",action="store_true",dest="verbose",default=False,help="Show details")
 
 	group_Double.add_option("-u","--markusername",type="string",action="store",dest="mark_username",help="Mark username variable burst location")
-	group_Double.add_option("-U","--username_file",type="string",action="store",dest="username_file",help="Username list")	
+	group_Double.add_option("-U","--username_file",type="string",action="store",dest="username_file",help="Username list",default="dict/Users.txt")	
 	group_Double.add_option("-p","--markpassword",type="string",action="store",dest="mark_password",help="Mark password variable burst location")
-	group_Double.add_option("-P","--password_file",type="string",action="store",dest="password_file",help="Password list")
+	group_Double.add_option("-P","--password_file",type="string",action="store",dest="password_file",help="Password list",default="dict/Password.txt")
 	apiparser.add_option_group(group_Double)
 
 	group_Single.add_option("-C","--single_variable",action="store_true",dest="single_variable",default=False,help="Single variable mode,Only one test variable interface,Shared with -c option")
